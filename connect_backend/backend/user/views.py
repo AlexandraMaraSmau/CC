@@ -19,19 +19,24 @@ def get_user_by_id(request, user_id):
     except User.DoesNotExist:
         raise Http404("User does not exist")
     data = serializers.serialize("json", query_set)
-    return HttpResponse(data)
+    return HttpResponse(data, status=200)
 
 def get_all_users(request):
     query_set = User.objects.all()
     data = serializers.serialize("json", query_set)
-    return HttpResponse(data)
+    return HttpResponse(data, status=200)
 
 def update_user_by_id(request, user_id):
     user = get_object_or_404(User, id=user_id)
     data = json.loads(request.body)
 
     serializer = UserSerializer(user, data=data)
-    serializer.save()
+
+    if serializer.is_valid():
+        serializer.save()
+    else:
+        return HttpResponse(status=400)
+        
     return HttpResponse(status=200)
 
 def delete_user_by_id(request, user_id):
