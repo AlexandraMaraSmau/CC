@@ -3,6 +3,24 @@ from django.db import models
 # Create your models here.
 from django.db import models
 
+class Activity(models.Model):
+    ActivityID = models.IntegerField(primary_key=True)
+    ActivityName = models.CharField(max_length=255)
+    Description = models.TextField()
+    Category = models.CharField(max_length=255)
+
+class Event(models.Model):
+    EventID = models.IntegerField(primary_key=True)
+    Status = models.CharField(max_length=20)
+    Location = models.CharField(max_length=255)
+    Date = models.DateField()
+    Time = models.TimeField()
+    CreationDate = models.DateTimeField(auto_now_add=True)
+
+class Conversation(models.Model):
+    ConversationID = models.IntegerField(primary_key=True)
+    CreationDate = models.DateTimeField(auto_now_add=True)
+
 class User(models.Model):
     UserID = models.IntegerField(primary_key=True)
     Username = models.CharField(max_length=255)
@@ -18,49 +36,16 @@ class User(models.Model):
     Location = models.CharField(max_length=255)
     Bio = models.TextField()
     RegistrationDate = models.DateTimeField(auto_now_add=True)
-
-class Event(models.Model):
-    EventID = models.IntegerField(primary_key=True)
-    UserID = models.ForeignKey(User, on_delete=models.CASCADE)
-    Status = models.CharField(max_length=20)
-    Location = models.CharField(max_length=255)
-    Date = models.DateField()
-    Time = models.TimeField()
-    CreationDate = models.DateTimeField(auto_now_add=True)
-
-class User_Event(models.Model):
-    UserEventID = models.IntegerField(primary_key=True)
-    UserID = models.ForeignKey(User, on_delete=models.CASCADE)
-    EventID = models.ForeignKey(Event, on_delete=models.CASCADE)
-
-class User_Activity(models.Model):
-    UserActivityID = models.IntegerField(primary_key=True)
-    UserID = models.ForeignKey(User, on_delete=models.CASCADE)
-    ActivityID = models.ForeignKey('Activity', on_delete=models.CASCADE)
-
-class Activity(models.Model):
-    ActivityID = models.IntegerField(primary_key=True)
-    UserID = models.ForeignKey(User, on_delete=models.CASCADE)
-    ActivityName = models.CharField(max_length=255)
-    Description = models.TextField()
-    Category = models.CharField(max_length=255)
+    Activities = models.ManyToManyField(Activity)
+    Events = models.ManyToManyField(Event)
+    Conversations = models.ManyToManyField(Conversation)
 
 class Message(models.Model):
     MessageID = models.IntegerField(primary_key=True)
-    ConversationID = models.IntegerField()
+    ConversationID = models.ForeignKey(Conversation, on_delete=models.CASCADE)
     Content = models.TextField()
     Timestamp = models.DateTimeField(auto_now_add=True)
     Status = models.CharField(max_length=20)
-
-class Chat(models.Model):
-    ChatID = models.IntegerField(primary_key=True)
-    UserID = models.ForeignKey(User, on_delete=models.CASCADE)
-    ConversationID = models.ForeignKey('Conversation', on_delete=models.CASCADE)
-
-class Conversation(models.Model):
-    ConversationID = models.IntegerField(primary_key=True)
-    ParticipationID = models.ForeignKey(User_Activity, on_delete=models.CASCADE)
-    CreationDate = models.DateTimeField(auto_now_add=True)
 
 class Review(models.Model):
     ReviewID = models.IntegerField(primary_key=True)
