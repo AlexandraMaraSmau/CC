@@ -52,6 +52,17 @@ class Message(models.Model):
     Content = models.TextField()
     Timestamp = models.DateTimeField(auto_now_add=True)
     Status = models.CharField(max_length=20)
+    def __str__(self):
+        return self.name
+
+class Conversation(models.Model):
+    ConversationID = models.IntegerField(primary_key=True)
+    EventID = models.ForeignKey(User, on_delete=models.CASCADE)
+    CreationDate = models.DateTimeField(auto_now_add=True)
+    Users = models.ManyToManyField(User)
+
+    def __str__(self):
+        return self.name
 
 class Review(models.Model):
     ReviewID = models.IntegerField(primary_key=True)
