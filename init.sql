@@ -16,15 +16,6 @@ CREATE TABLE User (
                       RegistrationDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Create User_Activity table
-CREATE TABLE User_Activity (
-                               UserActivityID INT PRIMARY KEY,
-                               UserID INT,
-                               ActivityID INT,
-                               FOREIGN KEY (UserID) REFERENCES User(UserID),
-                               FOREIGN KEY (ActivityID) REFERENCES Activity(ActivityID)
-);
-
 -- Create Activity table
 CREATE TABLE Activity (
                           ActivityID INT PRIMARY KEY,
@@ -42,23 +33,15 @@ CREATE TABLE Message (
                          Content TEXT,
                          Timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                          Status VARCHAR(20)
-);
-
--- Create Chat table
-CREATE TABLE Chat (
-                      ChatID INT PRIMARY KEY,
-                      UserID INT,
-                      ConversationID INT,
-                      FOREIGN KEY (UserID) REFERENCES User(UserID),
-                      FOREIGN KEY (ConversationID) REFERENCES Conversation(ConversationID)
+                         FOREIGN KEY (ConversationID) REFERENCES Conversation(ConversationID)
 );
 
 -- Create Conversation table
 CREATE TABLE Conversation (
                               ConversationID INT PRIMARY KEY,
-                              ParticipationID INT,
+                              EventID INT,
                               CreationDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                              FOREIGN KEY (ParticipationID) REFERENCES User_Activity(UserActivityID)
+                              FOREIGN KEY (EventID) REFERENCES Event(EventID)
 );
 
 -- Create Event table
@@ -71,15 +54,6 @@ CREATE TABLE Event (
                        Time TIME,
                        CreationDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                        FOREIGN KEY (ActivityID) REFERENCES Activity(ActivityID)
-);
-
--- Create User_Event table
-CREATE TABLE User_Event (
-                            UserEventID INT PRIMARY KEY,
-                            UserID INT,
-                            EventID INT,
-                            FOREIGN KEY (UserID) REFERENCES User(UserID),
-                            FOREIGN KEY (EventID) REFERENCES Event(EventID)
 );
 
 -- Create Review table

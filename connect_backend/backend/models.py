@@ -19,6 +19,9 @@ class User(models.Model):
     Bio = models.TextField()
     RegistrationDate = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return self.name
+
 class Event(models.Model):
     EventID = models.IntegerField(primary_key=True)
     UserID = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -27,16 +30,10 @@ class Event(models.Model):
     Date = models.DateField()
     Time = models.TimeField()
     CreationDate = models.DateTimeField(auto_now_add=True)
+    Users = models.ManyToManyField(User)
 
-class User_Event(models.Model):
-    UserEventID = models.IntegerField(primary_key=True)
-    UserID = models.ForeignKey(User, on_delete=models.CASCADE)
-    EventID = models.ForeignKey(Event, on_delete=models.CASCADE)
-
-class User_Activity(models.Model):
-    UserActivityID = models.IntegerField(primary_key=True)
-    UserID = models.ForeignKey(User, on_delete=models.CASCADE)
-    ActivityID = models.ForeignKey('Activity', on_delete=models.CASCADE)
+    def __str__(self):
+        return self.name
 
 class Activity(models.Model):
     ActivityID = models.IntegerField(primary_key=True)
@@ -44,6 +41,10 @@ class Activity(models.Model):
     ActivityName = models.CharField(max_length=255)
     Description = models.TextField()
     Category = models.CharField(max_length=255)
+    Users = models.ManyToManyField(User)
+
+    def __str__(self):
+        return self.name
 
 class Message(models.Model):
     MessageID = models.IntegerField(primary_key=True)
@@ -51,16 +52,17 @@ class Message(models.Model):
     Content = models.TextField()
     Timestamp = models.DateTimeField(auto_now_add=True)
     Status = models.CharField(max_length=20)
-
-class Chat(models.Model):
-    ChatID = models.IntegerField(primary_key=True)
-    UserID = models.ForeignKey(User, on_delete=models.CASCADE)
-    ConversationID = models.ForeignKey('Conversation', on_delete=models.CASCADE)
+    def __str__(self):
+        return self.name
 
 class Conversation(models.Model):
     ConversationID = models.IntegerField(primary_key=True)
-    ParticipationID = models.ForeignKey(User_Activity, on_delete=models.CASCADE)
+    EventID = models.ForeignKey(User, on_delete=models.CASCADE)
     CreationDate = models.DateTimeField(auto_now_add=True)
+    Users = models.ManyToManyField(User)
+
+    def __str__(self):
+        return self.name
 
 class Review(models.Model):
     ReviewID = models.IntegerField(primary_key=True)
@@ -70,3 +72,6 @@ class Review(models.Model):
     Rating = models.IntegerField()
     Comment = models.TextField()
     Timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
