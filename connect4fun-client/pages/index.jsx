@@ -79,7 +79,7 @@ export default function Home() {
 					}}
 					elevation={3}
 				>
-					<Typography align="center">
+					<Box align="center">
 						<p>
 							<strong>
 								Connect
@@ -126,7 +126,7 @@ export default function Home() {
 							into unforgettable experiences and build a community that
 							celebrates the joy of shared interests.
 						</p>
-					</Typography>
+					</Box>
 				</Paper>
 				<Footer></Footer>
 			</Box>

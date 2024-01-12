@@ -12,7 +12,7 @@ import {
 	Paper,
 } from "@mui/material";
 import { useRouter } from "next/router";
-import styles from "../styles/LogIn.module.css";
+import styles from "../../styles/LogIn.module.css";
 
 export default function SingIn() {
 	const router = useRouter();
