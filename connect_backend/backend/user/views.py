@@ -27,16 +27,23 @@ def get_all_users(request):
     return HttpResponse(data, status=200)
 
 def update_user_by_id(request, user_id):
+
     user = get_object_or_404(User, id=user_id)
-    data = json.loads(request.body)
 
-    serializer = UserSerializer(user, data=data)
-
-    if serializer.is_valid():
-        serializer.save()
-    else:
+    # Parse the JSON data from the request body
+    try:
+        data = json.loads(request.body)
+    except json.JSONDecodeError:
         return HttpResponse(status=400)
-        
+
+    # Update only the specified fields
+    for key, value in data.items():
+        setattr(user, key, value)
+
+    # Save the updated user
+    user.save()
+
+    # Return a JSON response
     return HttpResponse(status=200)
 
 def delete_user_by_id(request, user_id):
