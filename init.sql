@@ -1,0 +1,95 @@
+-- Create User table
+CREATE TABLE User (
+                      UserID INT PRIMARY KEY,
+                      Username VARCHAR(255),
+                      LastName VARCHAR(255),
+                      FirstName VARCHAR(255),
+                      Role VARCHAR(255),
+                      Email VARCHAR(255),
+                      Password VARCHAR(255),
+                      PhoneNumber VARCHAR(15),
+                      ProfilePicture VARCHAR(255),
+                      Gender VARCHAR(10),
+                      Interests VARCHAR(255),
+                      Location VARCHAR(255),
+                      Bio TEXT,
+                      RegistrationDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create User_Activity table
+CREATE TABLE User_Activity (
+                               UserActivityID INT PRIMARY KEY,
+                               UserID INT,
+                               ActivityID INT,
+                               FOREIGN KEY (UserID) REFERENCES User(UserID),
+                               FOREIGN KEY (ActivityID) REFERENCES Activity(ActivityID)
+);
+
+-- Create Activity table
+CREATE TABLE Activity (
+                          ActivityID INT PRIMARY KEY,
+                          UserID INT,
+                          ActivityName VARCHAR(255),
+                          Description TEXT,
+                          Category VARCHAR(255),
+                          FOREIGN KEY (UserID) REFERENCES User(UserID)
+);
+
+-- Create Message table
+CREATE TABLE Message (
+                         MessageID INT PRIMARY KEY,
+                         ConversationID INT,
+                         Content TEXT,
+                         Timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                         Status VARCHAR(20)
+);
+
+-- Create Chat table
+CREATE TABLE Chat (
+                      ChatID INT PRIMARY KEY,
+                      UserID INT,
+                      ConversationID INT,
+                      FOREIGN KEY (UserID) REFERENCES User(UserID),
+                      FOREIGN KEY (ConversationID) REFERENCES Conversation(ConversationID)
+);
+
+-- Create Conversation table
+CREATE TABLE Conversation (
+                              ConversationID INT PRIMARY KEY,
+                              ParticipationID INT,
+                              CreationDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                              FOREIGN KEY (ParticipationID) REFERENCES User_Activity(UserActivityID)
+);
+
+-- Create Event table
+CREATE TABLE Event (
+                       EventID INT PRIMARY KEY,
+                       ActivityID INT,
+                       Status VARCHAR(20),
+                       Location VARCHAR(255),
+                       Date DATE,
+                       Time TIME,
+                       CreationDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                       FOREIGN KEY (ActivityID) REFERENCES Activity(ActivityID)
+);
+
+-- Create User_Event table
+CREATE TABLE User_Event (
+                            UserEventID INT PRIMARY KEY,
+                            UserID INT,
+                            EventID INT,
+                            FOREIGN KEY (UserID) REFERENCES User(UserID),
+                            FOREIGN KEY (EventID) REFERENCES Event(EventID)
+);
+
+-- Create Review table
+CREATE TABLE Review (
+                        ReviewID INT PRIMARY KEY,
+                        UserID INT,
+                        LastName VARCHAR(255),
+                        FirstName VARCHAR(255),
+                        Rating INT,
+                        Comment TEXT,
+                        Timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                        FOREIGN KEY (UserID) REFERENCES User(UserID)
+);
