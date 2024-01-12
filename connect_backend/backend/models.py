@@ -1,10 +1,7 @@
 from django.db import models
 
-# Create your models here.
-from django.db import models
-
 class User(models.Model):
-    UserID = models.IntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     Username = models.CharField(max_length=255)
     LastName = models.CharField(max_length=255)
     FirstName = models.CharField(max_length=255)
@@ -19,12 +16,14 @@ class User(models.Model):
     Bio = models.TextField()
     RegistrationDate = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        app_label = 'backend'
+
     def __str__(self):
         return self.name
 
 class Event(models.Model):
-    EventID = models.IntegerField(primary_key=True)
-    UserID = models.ForeignKey(User, on_delete=models.CASCADE)
+    id = models.AutoField(primary_key=True)
     Status = models.CharField(max_length=20)
     Location = models.CharField(max_length=255)
     Date = models.DateField()
@@ -32,46 +31,60 @@ class Event(models.Model):
     CreationDate = models.DateTimeField(auto_now_add=True)
     Users = models.ManyToManyField(User)
 
+    class Meta:
+        app_label = 'backend'
+
     def __str__(self):
         return self.name
 
 class Activity(models.Model):
-    ActivityID = models.IntegerField(primary_key=True)
-    UserID = models.ForeignKey(User, on_delete=models.CASCADE)
+    id = models.AutoField(primary_key=True)
     ActivityName = models.CharField(max_length=255)
     Description = models.TextField()
     Category = models.CharField(max_length=255)
     Users = models.ManyToManyField(User)
 
-    def __str__(self):
-        return self.name
+    class Meta:
+        app_label = 'backend'
 
-class Message(models.Model):
-    MessageID = models.IntegerField(primary_key=True)
-    ConversationID = models.ForeignKey(Conversation, on_delete=models.CASCADE)
-    Content = models.TextField()
-    Timestamp = models.DateTimeField(auto_now_add=True)
-    Status = models.CharField(max_length=20)
     def __str__(self):
         return self.name
 
 class Conversation(models.Model):
-    ConversationID = models.IntegerField(primary_key=True)
-    EventID = models.ForeignKey(User, on_delete=models.CASCADE)
+    id = models.AutoField(primary_key=True)
+    EventID = models.ForeignKey(Event, on_delete=models.CASCADE)
     CreationDate = models.DateTimeField(auto_now_add=True)
     Users = models.ManyToManyField(User)
+
+    class Meta:
+        app_label = 'backend'
+
+    def __str__(self):
+        return self.name
+
+class Message(models.Model):
+    ConversationID = models.ForeignKey(Conversation, on_delete=models.CASCADE)
+    Content = models.TextField()
+    Timestamp = models.DateTimeField(auto_now_add=True)
+    Status = models.CharField(max_length=20)
+
+    class Meta:
+        app_label = 'backend'
 
     def __str__(self):
         return self.name
 
 class Review(models.Model):
-    ReviewID = models.IntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     UserID = models.ForeignKey(User, on_delete=models.CASCADE)
     LastName = models.CharField(max_length=255)
     FirstName = models.CharField(max_length=255)
     Rating = models.IntegerField()
     Comment = models.TextField()
     Timestamp = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        app_label = 'backend'
 
     def __str__(self):
         return self.name
