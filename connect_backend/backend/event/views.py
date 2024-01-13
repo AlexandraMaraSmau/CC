@@ -1,31 +1,31 @@
 import json
-from ..models import User
+from ..models import Event
 
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse, Http404, HttpResponseNotAllowed
 from django.core import serializers
 
-def create_user(request):
+def create_event(request):
     json_data = json.loads(request.body.decode('utf-8'))
-    user = User.objects.create(**json_data)
-    user.save()
+    event = Event.objects.create(**json_data)
+    event.save()
     return HttpResponse(status=201)
 
-def get_user_by_id(request, user_id):
+def get_event_by_id(request, event_id):
     try:
-        query_set = User.objects.filter(pk=user_id)
-    except User.DoesNotExist:
-        raise Http404("User does not exist")
+        query_set = Event.objects.filter(pk=event_id)
+    except Event.DoesNotExist:
+        raise Http404("Event does not exist")
     data = serializers.serialize("json", query_set)
     return HttpResponse(data, status=200)
 
-def get_all_users(request):
-    query_set = User.objects.all()
+def get_all_events(request):
+    query_set = Event.objects.all()
     data = serializers.serialize("json", query_set)
     return HttpResponse(data, status=200)
 
-def update_user_by_id(request, user_id):
-    user = get_object_or_404(User, id=user_id)
+def update_event_by_id(request, event_id):
+    event = get_object_or_404(Event, id=event_id)
 
     try:
         data = json.loads(request.body)
@@ -33,20 +33,20 @@ def update_user_by_id(request, user_id):
         return HttpResponse(status=400)
 
     for key, value in data.items():
-        setattr(user, key, value)
+        setattr(event, key, value)
 
-    user.save()
+    event.save()
 
     return HttpResponse(status=200)
 
-def delete_user_by_id(request, user_id):
+def delete_event_by_id(request, event_id):
     if request.method == 'DELETE':
         try:
-            user = User.objects.get(pk=user_id)
-        except User.DoesNotExist:
-            raise Http404("User does not exist")
-        
-        user.delete()
+            event = Event.objects.get(pk=event_id)
+        except Event.DoesNotExist:
+            raise Http404("Event does not exist")
+
+        event.delete()
         return HttpResponse(status=200)
     else:
         raise HttpResponseNotAllowed("Method is not supported")

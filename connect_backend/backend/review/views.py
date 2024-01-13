@@ -1,31 +1,31 @@
 import json
-from ..models import User
+from ..models import Review
 
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse, Http404, HttpResponseNotAllowed
 from django.core import serializers
 
-def create_user(request):
+def create_review(request):
     json_data = json.loads(request.body.decode('utf-8'))
-    user = User.objects.create(**json_data)
-    user.save()
+    review = Review.objects.create(**json_data)
+    review.save()
     return HttpResponse(status=201)
 
-def get_user_by_id(request, user_id):
+def get_review_by_id(request, review_id):
     try:
-        query_set = User.objects.filter(pk=user_id)
-    except User.DoesNotExist:
-        raise Http404("User does not exist")
+        query_set = Review.objects.filter(pk=review_id)
+    except Review.DoesNotExist:
+        raise Http404("Review does not exist")
     data = serializers.serialize("json", query_set)
     return HttpResponse(data, status=200)
 
-def get_all_users(request):
-    query_set = User.objects.all()
+def get_all_reviews(request):
+    query_set = Review.objects.all()
     data = serializers.serialize("json", query_set)
     return HttpResponse(data, status=200)
 
-def update_user_by_id(request, user_id):
-    user = get_object_or_404(User, id=user_id)
+def update_review_by_id(request, review_id):
+    review = get_object_or_404(Review, id=review_id)
 
     try:
         data = json.loads(request.body)
@@ -33,20 +33,20 @@ def update_user_by_id(request, user_id):
         return HttpResponse(status=400)
 
     for key, value in data.items():
-        setattr(user, key, value)
+        setattr(review, key, value)
 
-    user.save()
+    review.save()
 
     return HttpResponse(status=200)
 
-def delete_user_by_id(request, user_id):
+def delete_review_by_id(request, review_id):
     if request.method == 'DELETE':
         try:
-            user = User.objects.get(pk=user_id)
-        except User.DoesNotExist:
-            raise Http404("User does not exist")
-        
-        user.delete()
+            review = Review.objects.get(pk=review_id)
+        except Review.DoesNotExist:
+            raise Http404("Review does not exist")
+
+        review.delete()
         return HttpResponse(status=200)
     else:
         raise HttpResponseNotAllowed("Method is not supported")

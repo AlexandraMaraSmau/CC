@@ -2,9 +2,8 @@ from django.urls import include, path
 
 urlpatterns = [
     path('api/', include('backend.user.urls')),
-    # path('/', include('activities.urls')),
-    # path('/', include('conversations.urls')),
-    # path('/', include('events.urls')),
-    # path('/', include('messages.urls')),
-    # path('/', include('reviews.urls')),
+    path('api/', include('backend.review.urls')),
+    path('api/', include('backend.message.urls')),
+    path('api/', include('backend.conversation.urls')),
+    path('api/', include('backend.activity.urls')),
 ]

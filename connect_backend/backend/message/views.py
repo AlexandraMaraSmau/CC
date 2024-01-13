@@ -1,31 +1,31 @@
 import json
-from ..models import User
+from ..models import Message
 
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse, Http404, HttpResponseNotAllowed
 from django.core import serializers
 
-def create_user(request):
+def create_message(request):
     json_data = json.loads(request.body.decode('utf-8'))
-    user = User.objects.create(**json_data)
-    user.save()
+    message = Message.objects.create(**json_data)
+    message.save()
     return HttpResponse(status=201)
 
-def get_user_by_id(request, user_id):
+def get_message_by_id(request, message_id):
     try:
-        query_set = User.objects.filter(pk=user_id)
-    except User.DoesNotExist:
-        raise Http404("User does not exist")
+        query_set = Message.objects.filter(pk=message_id)
+    except Message.DoesNotExist:
+        raise Http404("Message does not exist")
     data = serializers.serialize("json", query_set)
     return HttpResponse(data, status=200)
 
-def get_all_users(request):
-    query_set = User.objects.all()
+def get_all_messages(request):
+    query_set = Message.objects.all()
     data = serializers.serialize("json", query_set)
     return HttpResponse(data, status=200)
 
-def update_user_by_id(request, user_id):
-    user = get_object_or_404(User, id=user_id)
+def update_message_by_id(request, message_id):
+    message = get_object_or_404(Message, id=message_id)
 
     try:
         data = json.loads(request.body)
@@ -33,20 +33,20 @@ def update_user_by_id(request, user_id):
         return HttpResponse(status=400)
 
     for key, value in data.items():
-        setattr(user, key, value)
+        setattr(message, key, value)
 
-    user.save()
+    message.save()
 
     return HttpResponse(status=200)
 
-def delete_user_by_id(request, user_id):
+def delete_message_by_id(request, message_id):
     if request.method == 'DELETE':
         try:
-            user = User.objects.get(pk=user_id)
-        except User.DoesNotExist:
-            raise Http404("User does not exist")
-        
-        user.delete()
+            message = Message.objects.get(pk=message_id)
+        except Message.DoesNotExist:
+            raise Http404("Message does not exist")
+
+        message.delete()
         return HttpResponse(status=200)
     else:
         raise HttpResponseNotAllowed("Method is not supported")
