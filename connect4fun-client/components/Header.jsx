@@ -17,7 +17,8 @@ export default function SimpleHeader() {
 	const router = useRouter();
 	const isHomePage = router.pathname === "/";
 
-	const handleClickLogo = () => {
+	const handleClickLogo = (e) => {
+		e.preventDefault();
 		router.push("/");
 	};
 
@@ -56,7 +57,7 @@ export default function SimpleHeader() {
 										borderRadius: "20px",
 									}}
 								>
-									Sign In
+									Log In
 								</Button>
 							</Link>
 							<Link key={1} href="/signup" passHref>

@@ -27,12 +27,14 @@ export default function SingIn() {
 		setShowPassword(!showPassword);
 	};
 
-	const handleClickForgotPassword = () => {
+	const handleClickForgotPassword = (e) => {
+		e.preventDefault();
 		router.push("/forgot-password");
 	};
 
-	const handleSingUp = () => {
-		router.push("/sing-up");
+	const handleSingUp = (e) => {
+		e.preventDefault();
+		router.push("/signup");
 	};
 
 	const handleChangeEmail = (e) => {
@@ -83,7 +85,7 @@ export default function SingIn() {
 						align="center"
 						sx={{ fontWeight: "bold" }}
 					>
-						LogIn
+						Log In
 					</Typography>
 
 					<form onSubmit={handleSubmit}>
@@ -140,13 +142,13 @@ export default function SingIn() {
 							sx={{ textTransform: "none", fontSize: "medium" }}
 							fullWidth
 						>
-							LogIn
+							Log In
 						</Button>
 						<Typography className={styles.login_component} align="center">
 							Don&rsquo;t have an account?{" "}
 							<Link component="button" underline="none" onClick={handleSingUp}>
 								{" "}
-								SingUp{" "}
+								Sing Up{" "}
 							</Link>
 						</Typography>
 					</form>
