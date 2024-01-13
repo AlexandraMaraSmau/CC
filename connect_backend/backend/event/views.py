@@ -1,5 +1,5 @@
 import json
-from ..models import Event
+from ..models import Event, User, Activity
 
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse, Http404, HttpResponseNotAllowed
@@ -7,7 +7,13 @@ from django.core import serializers
 
 def create_event(request):
     json_data = json.loads(request.body.decode('utf-8'))
+    user = User.objects.filter(pk=json_data.get("user_id"))
+    activity = Activity.objects.filter(pk=json_data.get("activity_id"))
+    json_data.pop("UserID_id")
+    json_data.pop("ActivityID_id")
     event = Event.objects.create(**json_data)
+    event.UserID = user
+    event.ActivityID = activity
     event.save()
     return HttpResponse(status=201)
 

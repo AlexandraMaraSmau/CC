@@ -1,10 +1,12 @@
+DROP DATABASE connect;
+
 -- Create Database
 CREATE DATABASE connect;
 USE connect;
 
 -- Create User table
 CREATE TABLE User (
-                      UserID INT PRIMARY KEY,
+                      UserID INT AUTO_INCREMENT PRIMARY KEY,
                       Username VARCHAR(255),
                       LastName VARCHAR(255),
                       FirstName VARCHAR(255),
@@ -22,7 +24,7 @@ CREATE TABLE User (
 
 -- Create Activity table
 CREATE TABLE Activity (
-                          ActivityID INT PRIMARY KEY,
+                          ActivityID INT AUTO_INCREMENT PRIMARY KEY,
                           UserID INT,
                           ActivityName VARCHAR(255),
                           Description TEXT,
@@ -32,7 +34,7 @@ CREATE TABLE Activity (
 
 -- Create Event table
 CREATE TABLE Event (
-                       EventID INT PRIMARY KEY,
+                       EventID INT AUTO_INCREMENT PRIMARY KEY,
                        ActivityID INT,
                        UserID INT,
                        Status VARCHAR(20),
@@ -46,7 +48,7 @@ CREATE TABLE Event (
 
 -- Create Conversation table
 CREATE TABLE Conversation (
-                              ConversationID INT PRIMARY KEY,
+                              ConversationID INT AUTO_INCREMENT PRIMARY KEY,
                               EventID INT,
                               UserID INT,
                               CreationDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -56,7 +58,7 @@ CREATE TABLE Conversation (
 
 -- Create Message table
 CREATE TABLE Message (
-                         MessageID INT PRIMARY KEY,
+                         MessageID INT AUTO_INCREMENT PRIMARY KEY,
                          ConversationID INT,
                          Content TEXT,
                          Timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -66,7 +68,7 @@ CREATE TABLE Message (
 
 -- Create Review table
 CREATE TABLE Review (
-                        ReviewID INT PRIMARY KEY,
+                        ReviewID INT AUTO_INCREMENT PRIMARY KEY,
                         UserID INT,
                         LastName VARCHAR(255),
                         FirstName VARCHAR(255),

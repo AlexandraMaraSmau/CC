@@ -1,5 +1,5 @@
 import json
-from ..models import Conversation
+from ..models import Conversation, User
 
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse, Http404, HttpResponseNotAllowed
@@ -7,7 +7,10 @@ from django.core import serializers
 
 def create_conversation(request):
     json_data = json.loads(request.body.decode('utf-8'))
+    user = User.objects.filter(pk=json_data.get("user_id"))
+    json_data.pop("UserID_id")
     conversation = Conversation.objects.create(**json_data)
+    conversation.UserID = user
     conversation.save()
     return HttpResponse(status=201)
 
