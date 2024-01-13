@@ -1,6 +1,7 @@
 version: "3"
 
 services:
+
   portainer:
     image: portainer/portainer-ce:latest
     container_name: portainer
@@ -9,11 +10,11 @@ services:
     volumes:
       - ./portainer_data:/data
       - /var/run/docker.sock:/var/run/docker.sock
-    command: --admin-password 'connect4fun-admin123'
     environment:
       - ADMIN_USERNAME=connect4fun-admin
       - ADMIN_PASSWORD=connect4fun-admin123
     restart: unless-stopped
+
   mysql:
     image: mysql:8.0.35
     container_name: mysql
@@ -38,10 +39,22 @@ services:
     container_name: django_service
     networks:
       - backend
+      - frontend
     volumes:
       - .:/django_service
     ports:
       - "8000:8000"
+
+  react_service:
+    build: ../connect4fun-client
+
+    container_name: react_service
+    networks:
+      - frontend
+    volumes:
+      - .:/react_service
+    ports:
+      - "3000:3000"
 
 volumes:
   my-datavolume:
@@ -50,3 +63,5 @@ volumes:
 networks:
   backend:
     name: backend
+  frontend:
+    name: frontend
