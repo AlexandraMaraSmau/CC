@@ -9,11 +9,11 @@ services:
     volumes:
       - ./portainer_data:/data
       - /var/run/docker.sock:/var/run/docker.sock
-    command: --admin-password 'connect4fun-admin123'
     environment:
       - ADMIN_USERNAME=connect4fun-admin
       - ADMIN_PASSWORD=connect4fun-admin123
     restart: unless-stopped
+
   mysql:
     image: mysql:8.0.35
     container_name: mysql
@@ -43,10 +43,29 @@ services:
     ports:
       - "8000:8000"
 
+  dbeaver:
+    build: .
+    depends_on:
+      - mysql
+    container_name: dbeaver
+    image: dbeaver/cloudbeaver
+    ports:
+      - "8978:8978"
+    networks:
+      dbeaver:
+        aliases:
+          - mysql
+    volumes:
+      - .:/dbeaver
+    restart: unless-stopped
+
 volumes:
   my-datavolume:
   portainer_data:
+  dbeaver:
 
 networks:
   backend:
     name: backend
+  dbeaver:
+    name: dbeaver
