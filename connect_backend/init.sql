@@ -4,6 +4,12 @@ DROP DATABASE connect;
 CREATE DATABASE connect;
 USE connect;
 
+CREATE TABLE AuthenticationUser (
+					  AuthenticationUserID INT AUTO_INCREMENT PRIMARY KEY,
+					  Email VARCHAR(255) UNIQUE,
+                      Password VARCHAR(255)
+);
+
 -- Create User table
 CREATE TABLE User (
                       UserID INT AUTO_INCREMENT PRIMARY KEY,

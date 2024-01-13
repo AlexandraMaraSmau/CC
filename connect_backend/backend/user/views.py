@@ -45,7 +45,7 @@ def delete_user_by_id(request, user_id):
             user = User.objects.get(pk=user_id)
         except User.DoesNotExist:
             raise Http404("User does not exist")
-        
+
         user.delete()
         return HttpResponse(status=200)
     else:
