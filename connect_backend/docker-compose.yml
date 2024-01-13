@@ -1,0 +1,52 @@
+version: "3"
+
+services:
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    ports:
+      - 9443:9443
+    volumes:
+      - ./portainer_data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --admin-password 'connect4fun-admin123'
+    environment:
+      - ADMIN_USERNAME=connect4fun-admin
+      - ADMIN_PASSWORD=connect4fun-admin123
+    restart: unless-stopped
+  mysql:
+    image: mysql:8.0.35
+    container_name: mysql
+    networks:
+      backend:
+        aliases:
+          - mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: connect
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin1234
+    ports:
+      - "3600:3306"
+    volumes:
+      - my-datavolume:/var/lib/mysql
+
+  django_service:
+    build: .
+    depends_on:
+      - mysql
+    container_name: django_service
+    networks:
+      - backend
+    volumes:
+      - .:/django_service
+    ports:
+      - "8000:8000"
+
+volumes:
+  my-datavolume:
+  portainer_data:
+
+networks:
+  backend:
+    name: backend
