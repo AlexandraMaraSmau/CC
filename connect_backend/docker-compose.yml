@@ -1,0 +1,40 @@
+
+services:
+  mysql:
+    image: mysql:8.2.0-oraclelinux8
+    container_name: mysql
+    networks:
+      backend:
+        aliases:
+          - mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: connect
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin1234
+    ports:
+      - "3600:3306"
+    volumes:
+      - my-datavolume:/var/lib/mysql
+
+  # django_service:
+  #   build: .
+  #   depends_on:
+  #     - mysql
+  #   links:
+  #     - mysql
+  #   command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+  #   container_name: django_service
+  #   networks:
+  #     - backend
+  #   volumes:
+  #     - .:/django_service
+  #   ports:
+  #     - "8000:8000"
+
+volumes:
+  my-datavolume:
+
+networks:
+  backend:
+    name: backend
