@@ -12,6 +12,8 @@ WORKDIR /app
 COPY . /app
 
 # Install any needed packages specified in requirements.txt
+RUN apt-get update && apt-get install -y netcat-traditional
+
 RUN pip install --upgrade pip && \
     pip install -r requirements.txt
 
@@ -19,4 +21,7 @@ RUN pip install --upgrade pip && \
 EXPOSE 8000
 
 # Define the command to run your application
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+ADD init_server.sh /
+RUN chmod 777 ./init_server.sh
+
+CMD ["./init_server.sh"]
