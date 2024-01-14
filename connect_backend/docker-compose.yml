@@ -21,15 +21,17 @@ services:
     container_name: mysql
     networks:
       - backend
+      - adminer
+
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: connect
       MYSQL_USER: admin
       MYSQL_PASSWORD: admin1234
     ports:
-      - "3306:3306"
-    volumes:
-      - my-datavolume:/var/lib/mysql
+      - "3600:3306"
+   volumes:
+     - my-datavolume:/var/lib/mysql
 
 
   mysqlauth:
@@ -87,7 +89,6 @@ services:
     ports:
       - "3000:3000"
 
-
   prometheus:
     image: prom/prometheus
     networks:
@@ -115,31 +116,33 @@ services:
     volumes:
       - grafana:/var/lib/grafana
       - ./grafana-provisioning/:/etc/grafana/provisioning
-  
-  
-  dbeaver:
+
+  adminer:
     build: .
     depends_on:
       - mysql
-    container_name: dbeaver
-    image: dbeaver/cloudbeaver
+    container_name: adminer
+    image: adminer
+    environment:
+      ADMINER_DEFAULT_SERVER: mysql
+      ADMINER_USERNAME: admin
+      ADMINER_PASSWORD: admin1234
+      ADMINER_DATABASE: connect
+      ADMINER_AUTOLOGIN: 1
     ports:
-      - "8978:8978"
+      - 8080:8080
     networks:
-      dbeaver:
-        aliases:
-          - mysql
+      - adminer
     volumes:
-      - .:/dbeaver
-    restart: unless-stopped
-
+      - .:/adminer
+    restart: always
 
 volumes:
   grafana:
   my-datavolume:
   my-datavolumeauth:
   portainer_data:
-  dbeaver:
+  adminer:
 
 
 networks:
@@ -153,5 +156,5 @@ networks:
     name: backend
   frontend:
     name: frontend
-  dbeaver:
-    name: dbeaver
+  adminer:
+    name: adminer

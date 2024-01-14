@@ -12,7 +12,7 @@ WORKDIR /app
 COPY . /app
 
 # Install any needed packages specified in requirements.txt
-RUN apt-get update && apt-get install -y netcat-traditional
+RUN apt-get update && apt-get install -y netcat-traditional && apt-get install dos2unix
 
 RUN pip install --upgrade pip && \
     pip install -r requirements.txt
@@ -21,7 +21,6 @@ RUN pip install --upgrade pip && \
 EXPOSE 8000
 
 # Define the command to run your application
-ADD init_server.sh /
-RUN chmod 777 ./init_server.sh
+RUN dos2unix /app/init_server.sh && chmod 777 /app/init_server.sh
 
-CMD ["./init_server.sh"]
+CMD ["/app/init_server.sh"]
