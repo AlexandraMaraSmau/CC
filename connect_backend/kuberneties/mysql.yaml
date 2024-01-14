@@ -41,36 +41,36 @@ spec:
       ports:
         - containerPort: 3306
       env:
-        - name: MYSQL_ROOT_PASSWORD
-          value: root
-        - name: MYSQL_DATABASE
-          value: connect
-        - name: MYSQL_USER
-          value: mysql
-        - name: MYSQL_PASSWORD
-          value: admin1234
-        - name: MYSQL_USERNAME
-          value: mysql
         # - name: MYSQL_ROOT_PASSWORD
-        #   valueFrom:
-        #     secretKeyRef:
-        #       name: mysql-secret
-        #       key: mysql-root-password
+        #   value: root
         # - name: MYSQL_DATABASE
-        #   valueFrom:
-        #     configMapKeyRef:
-        #       name: mysql-configmap
-        #       key: mysql-databaset
+        #   value: connect
         # - name: MYSQL_USER
-        #   valueFrom:
-        #     secretKeyRef:
-        #       name: mysql-secret
-        #       key: mysql-user
+        #   value: mysql
         # - name: MYSQL_PASSWORD
-        #   valueFrom:
-        #     secretKeyRef:
-        #       name: mysql-secret
-        #       key: mysql-password
+        #   value: admin1234
+        # - name: MYSQL_USERNAME
+        #   value: mysql
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: mysql-root-password
+        - name: MYSQL_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: mysql-configmap
+              key: mysql-databaset
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: mysql-user
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: mysql-password
   volumes:
     - name: mysql-vol
       persistentVolumeClaim:
