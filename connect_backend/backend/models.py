@@ -7,7 +7,6 @@ class User(models.Model):
     FirstName = models.CharField(max_length=255)
     Role = models.CharField(max_length=255)
     Email = models.EmailField(unique=True)
-    Password = models.CharField(max_length=255)
     PhoneNumber = models.CharField(max_length=15)
     ProfilePicture = models.CharField(max_length=255)
     Gender = models.CharField(max_length=10)

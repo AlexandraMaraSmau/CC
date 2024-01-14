@@ -15,13 +15,12 @@ services:
       - ADMIN_PASSWORD=connect4fun-admin123
     restart: unless-stopped
 
+
   mysql:
     image: mysql:8.0.35
     container_name: mysql
     networks:
-      backend:
-        aliases:
-          - mysql
+      - backend
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: connect
@@ -32,6 +31,22 @@ services:
     volumes:
       - my-datavolume:/var/lib/mysql
 
+
+  mysqlauth:
+    image: mysql:8.0.35
+    container_name: mysqlauth
+    networks:
+      - authnet
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: connect
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin1234
+    ports:
+      - "3307:3306"
+    volumes:
+      - my-datavolumeauth:/var/lib/mysql
+
   djangoservice:
     build: .
     depends_on:
@@ -41,10 +56,25 @@ services:
       - backend
       - prometheusnet
       - frontend
+      - authnet
     volumes:
       - .:/djangoservice
     ports:
       - "8000:8000"
+
+
+  djangoauth:
+    build: ../connect_auth
+    depends_on:
+      - mysqlauth
+    container_name: djangoauth
+    networks:
+      - authnet
+    volumes:
+      - .:/djangoauth
+    ports:
+      - "8001:8001"
+
 
   react_service:
     build: ../connect4fun-client
@@ -57,7 +87,7 @@ services:
     ports:
       - "3000:3000"
 
-<<<<<<< HEAD
+
   prometheus:
     image: prom/prometheus
     networks:
@@ -69,6 +99,7 @@ services:
     - '--config.file=/etc/prometheus/prometheus.yml'
     ports:
     - 9090:9090
+
 
   grafana:
     image: grafana/grafana:latest
@@ -84,7 +115,8 @@ services:
     volumes:
       - grafana:/var/lib/grafana
       - ./grafana-provisioning/:/etc/grafana/provisioning
-=======
+  
+  
   dbeaver:
     build: .
     depends_on:
@@ -100,15 +132,19 @@ services:
     volumes:
       - .:/dbeaver
     restart: unless-stopped
->>>>>>> 2ab8200638c3a23ccdfaf5b9c198bf97a7521e24
+
 
 volumes:
   grafana:
   my-datavolume:
+  my-datavolumeauth:
   portainer_data:
   dbeaver:
 
+
 networks:
+  authnet:
+    name: authnet
   prometheusnet:
     name: prometheusnet
   grafananet:
