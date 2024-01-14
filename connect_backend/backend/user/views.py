@@ -9,7 +9,7 @@ from django.core import serializers
 def create_user(request):
     json_data = json.loads(request.body.decode('utf-8'))
 
-    register_url = 'http://127.0.0.1:8001/auth/register/'
+    register_url = 'http://auth-service:8001/auth/register/'
 
     response = requests.post(register_url, json=json_data, verify=False)
 
@@ -25,7 +25,7 @@ def create_user(request):
 def get_user_by_username_and_password(request):
     json_data = json.loads(request.body.decode('utf-8'))
 
-    login_url = 'http://127.0.0.1:8001/auth/login/'
+    login_url = 'http://auth-service:8001/auth/login/'
     
     username = json_data.get('Username')
 

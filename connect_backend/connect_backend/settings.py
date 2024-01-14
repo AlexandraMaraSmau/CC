@@ -11,10 +11,11 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import logging
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+logging.basicConfig(level=logging.DEBUG)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -25,7 +26,7 @@ SECRET_KEY = 'django-insecure-y@fhpwiz=jvu+7f=3b!=s1tgtn1a9lf!j(kz_j&@n7p@##9a=e
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['djangoservice', 'djangoauth', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['djangoservice', 'djangoauth', '127.0.0.1', 'localhost', 'auth-service', 'django-service']
 
 
 # Application definition
@@ -78,13 +79,14 @@ WSGI_APPLICATION = 'connect_backend.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
+logging.debug('mysql-service')
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'connect',
-        'USER': 'admin',
-        'PASSWORD': 'admin1234',
+        'USER': 'root',
+        'PASSWORD': 'root',
         'HOST': 'mysql-service',  # Set to the MySQL server host, e.g., 'localhost' or '127.0.0.1'
         'PORT': '3306',  # Set to the MySQL server port
         'OPTIONS': {

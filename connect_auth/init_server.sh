@@ -2,7 +2,7 @@
 
 while true
 do
-	nc -z mysqlauth 3306 && break;
+	nc -z mysqlauth-service 3306 && break;
 	sleep 2;
 done
 

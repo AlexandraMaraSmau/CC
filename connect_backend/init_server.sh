@@ -2,7 +2,7 @@
 
 while true
 do
-	nc -z mysql 3306 && break;
+	nc -z mysql-service 3306 && break;
 	sleep 2;
 done
 
