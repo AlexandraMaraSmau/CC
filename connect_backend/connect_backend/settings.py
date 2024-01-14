@@ -11,10 +11,11 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import logging
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+logging.basicConfig(level=logging.DEBUG)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -74,14 +75,15 @@ WSGI_APPLICATION = 'connect_backend.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
+logging.debug('mysql-service')
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'connect',
-        'USER': 'admin',
-        'PASSWORD': 'admin1234',
-        'HOST': 'mysql',  # Set to the MySQL server host, e.g., 'localhost' or '127.0.0.1'
+        'USER': 'root',
+        'PASSWORD': 'root',
+        'HOST': 'mysql-service',  # Set to the MySQL server host, e.g., 'localhost' or '127.0.0.1'
         'PORT': '3306',  # Set to the MySQL server port
         'OPTIONS': {
             'charset': 'utf8mb4',

@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: django
-          image: ledezeu/connect_backend-djangoservice:latest
+          image: extremegabryel/connect_backend-djangoservice:latest
           ports:
             - containerPort: 8000
           env:
@@ -25,7 +25,7 @@ spec:
             - name: DB_NAME
               value: connect
             - name: DB_USER
-              value: mysql
+              value: admin
             - name: DB_PASSWORD
               value: admin1234
 ---
