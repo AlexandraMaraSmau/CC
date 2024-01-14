@@ -22,6 +22,9 @@ services:
       backend:
         aliases:
           - mysql
+      adminer:
+        aliases:
+          - mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: connect
@@ -31,6 +34,7 @@ services:
       - "3600:3306"
     volumes:
       - my-datavolume:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
   django_service:
     build: .
@@ -56,31 +60,32 @@ services:
     ports:
       - "3000:3000"
 
-  dbeaver:
+  adminer:
     build: .
     depends_on:
       - mysql
-    container_name: dbeaver
-    image: dbeaver/cloudbeaver
+    container_name: adminer
+    image: adminer
     ports:
-      - "8978:8978"
+      - 8080:8080
+    environment:
+      ADMINER_DEFAULT_SERVER: mysql
     networks:
-      dbeaver:
-        aliases:
-          - mysql
+      - adminer
+
     volumes:
-      - .:/dbeaver
+      - .:/adminer
     restart: unless-stopped
 
 volumes:
   my-datavolume:
   portainer_data:
-  dbeaver:
+  adminer:
 
 networks:
   backend:
     name: backend
   frontend:
     name: frontend
-  dbeaver:
-    name: dbeaver
+  adminer:
+    name: adminer
