@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-y@fhpwiz=jvu+7f=3b!=s1tgtn1a9lf!j(kz_j&@n7p@##9a=e
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['djangoservice', '127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -37,16 +37,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_prometheus',
     'backend'
 ]
 
 MIDDLEWARE = [
+    'django_prometheus.middleware.PrometheusBeforeMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_prometheus.middleware.PrometheusAfterMiddleware',
 ]
 
 ROOT_URLCONF = 'connect_backend.urls'
@@ -79,7 +82,7 @@ DATABASES = {
         'NAME': 'connect',
         'USER': 'admin',
         'PASSWORD': 'admin1234',
-        'HOST': 'localhost',  # Set to the MySQL server host, e.g., 'localhost' or '127.0.0.1'
+        'HOST': 'mysql',  # Set to the MySQL server host, e.g., 'localhost' or '127.0.0.1'
         'PORT': '3306',  # Set to the MySQL server port
         'OPTIONS': {
             'charset': 'utf8mb4',
