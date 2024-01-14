@@ -81,7 +81,7 @@ DATABASES = {
         'NAME': 'connect',
         'USER': 'admin',
         'PASSWORD': 'admin1234',
-        'HOST': 'mysql',  # Set to the MySQL server host, e.g., 'localhost' or '127.0.0.1'
+        'HOST': 'mysql-service',  # Set to the MySQL server host, e.g., 'localhost' or '127.0.0.1'
         'PORT': '3306',  # Set to the MySQL server port
         'OPTIONS': {
             'charset': 'utf8mb4',
