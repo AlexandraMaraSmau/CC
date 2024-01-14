@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-pbe)&58+kv-4&9&v&k%aut2k-0a7_e6kjl+!*uq(y(9vj71%-8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['djangoservice', 'djangoauth', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['djangoservice', 'auth-service', 'django-service', 'djangoauth', '127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -81,9 +81,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'connect',
-        'USER': 'admin',
-        'PASSWORD': 'admin1234',
-        'HOST': 'mysqlauth',  # Set to the MySQL server host, e.g., 'localhost' or '127.0.0.1'
+        'USER': 'root',
+        'PASSWORD': 'root',
+        'HOST': 'mysqlauth-service',  # Set to the MySQL server host, e.g., 'localhost' or '127.0.0.1'
         'PORT': '3306',  # Set to the MySQL server port
         'OPTIONS': {
             'charset': 'utf8mb4',
