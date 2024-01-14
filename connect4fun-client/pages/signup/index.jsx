@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/router";
 import styles from "../../styles/LogIn.module.css";
+import {UserService} from "../../service/user_service";
 
 export default function SingUp() {
 	const router = useRouter();
@@ -195,6 +196,15 @@ export default function SingUp() {
 				errorLocation: true,
 			}));
 		}
+		// const response = UserService.addUser(user).then(
+		// 	(response) => {
+		// 		console.log(response);
+		// 	},
+		// 	(error) => {
+		// 		const resMessage = error.toString();
+		// 		console.log(resMessage);
+		// 	}
+		// );
 	};
 
 	return (
