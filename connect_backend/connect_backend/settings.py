@@ -79,7 +79,7 @@ DATABASES = {
         'NAME': 'connect',
         'USER': 'admin',
         'PASSWORD': 'admin1234',
-        'HOST': 'localhost',  # Set to the MySQL server host, e.g., 'localhost' or '127.0.0.1'
+        'HOST': 'mysql',  # Set to the MySQL server host, e.g., 'localhost' or '127.0.0.1'
         'PORT': '3306',  # Set to the MySQL server port
         'OPTIONS': {
             'charset': 'utf8mb4',
@@ -104,7 +104,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
