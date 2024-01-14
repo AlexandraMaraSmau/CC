@@ -1,4 +1,4 @@
-const USERS_URL = "http://127.0.0.1:8000/public/api/users/"
+const USERS_URL = "http://django-service:8000/public/api/users/"
 
 const addUser = async (user) => {
     try {
@@ -103,7 +103,7 @@ const getUserById = async (id) => {
             },
         };
 
-        const response = await fetch("http://127.0.0.1:8000/public/api/users/" + id + "/", options);
+        const response = await fetch(USERS_URL + id + "/", options);
         const responseJson = await response.json();
 
         const data = JSON.parse(JSON.stringify(responseJson));

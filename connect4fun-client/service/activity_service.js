@@ -1,4 +1,4 @@
-const ACTIVITIES_URL = "http://localhost:8000/public/api/activities/"
+const ACTIVITIES_URL = "http://django-service:8000/public/api/activities/"
 
 const addActivity = async (activity) => {
     try {

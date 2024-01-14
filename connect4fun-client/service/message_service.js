@@ -1,4 +1,4 @@
-const MESSAGES_URL = "http://localhost:8000/public/api/messages/"
+const MESSAGES_URL = "http://django-service:8000/public/api/messages/"
 
 const addMessage = async (message) => {
     try {

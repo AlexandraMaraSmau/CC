@@ -96,7 +96,7 @@ DATABASES = {
 }
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
+    "http://react-service:3000"
 ]
 
 CORS_ALLOW_ALL_HEADERS = True

@@ -1,4 +1,4 @@
-const REVIEWS_URL = "http://localhost:8000/public/api/reviews/"
+const REVIEWS_URL = "http://django-service:8000/public/api/reviews/"
 
 const addReview = async (review) => {
     try {

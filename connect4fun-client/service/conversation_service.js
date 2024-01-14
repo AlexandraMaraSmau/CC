@@ -1,4 +1,4 @@
-const CONVERSATIONS_URL = "http://localhost:8000/public/api/conversations/"
+const CONVERSATIONS_URL = "http://django-service:8000/public/api/conversations/"
 
 const addConversation = async (conversation) => {
     try {

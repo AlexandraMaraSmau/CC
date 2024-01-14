@@ -1,6 +1,6 @@
 import {UserService} from "./user_service";
 
-const AUTH_URL = "http://127.0.0.1:8000/public/api/users/"
+const AUTH_URL = "http://django-service:8000/public/api/users/"
 
 const loginUser = async (username, password) => {
     try {

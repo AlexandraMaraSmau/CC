@@ -1,4 +1,4 @@
-const EVENTS_URL = "http://localhost:8000/public/api/events/"
+const EVENTS_URL = "http://django-service:8000/public/api/events/"
 
 const addEvent = async (event) => {
     try {
