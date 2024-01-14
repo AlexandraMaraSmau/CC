@@ -1,10 +1,9 @@
-const EVENTS_URL = "http://localhost:8000/public/api/events/"
+const EVENTS_URL = "http://django-service:8000/public/api/events/"
 
 const addEvent = async (event) => {
     try {
         const options = {
             method: "POST",
-            mode: 'no-cors',
             headers: {
                 "Content-Type": "application/json",
             },
@@ -33,7 +32,6 @@ const updateEvent = async (event) => {
     try {
         const options = {
             method: "PUT",
-            mode: 'no-cors',
             headers: {
                 "Content-Type": "application/json",
             },
@@ -62,7 +60,6 @@ const deleteEvent = async (id) => {
     try {
         const options = {
             method: "DELETE",
-            mode: 'no-cors',
             headers: {
                 "Content-Type": "application/json",
             },
@@ -84,7 +81,6 @@ const getEventById = async (id) => {
 
         const options = {
             method: "GET",
-            mode: 'no-cors',
             headers: {
                 "Content-Type": "application/json",
             },
@@ -105,7 +101,6 @@ const getAllEvents = async () => {
 
         const options = {
             method: "GET",
-            mode: "no-cors",
             headers: {
                 "Content-Type": "application/json",
             },

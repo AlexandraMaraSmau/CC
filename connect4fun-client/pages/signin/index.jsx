@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
 	Box,
@@ -13,12 +13,12 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/router";
 import styles from "../../styles/LogIn.module.css";
+import {AuthenticationService} from "../../service/authentication_service";
 
 export default function SingIn() {
 	const router = useRouter();
-
-	const [email, setEmail] = React.useState("");
-	const [emailError, setEmailError] = React.useState(false);
+	const [username, setUsername] = React.useState("");
+	const [usernameError, setUsernameError] = React.useState(false);
 	const [password, setPassword] = React.useState("");
 	const [passwordError, setPasswordError] = React.useState(false);
 	const [showPassword, setShowPassword] = React.useState(false);
@@ -37,9 +37,9 @@ export default function SingIn() {
 		router.push("/signup");
 	};
 
-	const handleChangeEmail = (e) => {
-		setEmail(e.target.value);
-		setEmailError(false);
+	const handleChangeUsername = (e) => {
+		setUsername(e.target.value);
+		setUsernameError(false);
 	};
 
 	const handleChangePassword = (e) => {
@@ -50,21 +50,24 @@ export default function SingIn() {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 
-		setEmailError(false);
+		setUsernameError(false);
 		setPasswordError(false);
 
 		if (!password.length) {
 			setPasswordError(true);
 		}
 
-		if (!email.length) {
-			setEmailError(true);
+		if (!username.length) {
+			setUsernameError(true);
 			return;
 		}
 
-		if (!/^[^\s]+@[^\s]+\.[^\s]+$/.test(email)) {
-			setEmailError(true);
-		}
+		// if (!/^[^\s]+@[^\s]+\.[^\s]+$/.test(username)) {
+		// 	setUsernameError(true);
+		// }
+
+		AuthenticationService.loginUser(username, password);
+		router.push("/chat");
 	};
 
 	return (
@@ -91,13 +94,13 @@ export default function SingIn() {
 					<form onSubmit={handleSubmit}>
 						<TextField
 							className={styles.login_component}
-							label="Email"
+							label="Username"
 							variant="outlined"
-							onChange={handleChangeEmail}
-							value={email}
-							error={emailError}
+							onChange={handleChangeUsername}
+							value={username}
+							error={usernameError}
 							helperText={
-								emailError ? "Please enter a valid email address." : ""
+								usernameError ? "Please enter a valid username." : ""
 							}
 							fullWidth
 						/>

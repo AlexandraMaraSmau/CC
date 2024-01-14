@@ -1,10 +1,9 @@
-const USERS_URL = "http://localhost:8000/public/api/users/"
+const USERS_URL = "http://django-service:8000/public/api/users/"
 
 const addUser = async (user) => {
     try {
         const options = {
             method: "POST",
-            mode: 'no-cors',
             headers: {
                 "Content-Type": "application/json",
             },
@@ -26,10 +25,15 @@ const addUser = async (user) => {
         };
 
         const response = await fetch(USERS_URL + "add/", options);
-        const responseJson = await response.json();
+        const result = await response.text();
 
-        const data = JSON.parse(JSON.stringify(responseJson));
-        return data;
+        try {
+            const data = JSON.parse(result);
+            return data;
+        } catch (e) {
+            return result;
+        }
+
     } catch (e) {
         console.log(e);
     }
@@ -39,7 +43,6 @@ const updateUser = async (user) => {
     try {
         const options = {
             method: "PUT",
-            mode: 'no-cors',
             headers: {
                 "Content-Type": "application/json",
             },
@@ -74,7 +77,6 @@ const deleteUser = async (id) => {
     try {
         const options = {
             method: "DELETE",
-            mode: 'no-cors',
             headers: {
                 "Content-Type": "application/json",
             },
@@ -96,7 +98,6 @@ const getUserById = async (id) => {
 
         const options = {
             method: "GET",
-            mode: 'no-cors',
             headers: {
                 "Content-Type": "application/json",
             },
@@ -106,6 +107,7 @@ const getUserById = async (id) => {
         const responseJson = await response.json();
 
         const data = JSON.parse(JSON.stringify(responseJson));
+
         return data;
     } catch (e) {
         console.log(e);
@@ -114,10 +116,8 @@ const getUserById = async (id) => {
 
 const getAllUsers = async () => {
     try {
-
         const options = {
             method: "GET",
-            mode: "no-cors",
             headers: {
                 "Content-Type": "application/json",
             },
@@ -127,6 +127,7 @@ const getAllUsers = async () => {
         const responseJson = await response.json();
 
         const data = JSON.parse(JSON.stringify(responseJson));
+
         return data;
     } catch (e) {
         console.log(e);

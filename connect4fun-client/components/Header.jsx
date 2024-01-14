@@ -12,15 +12,22 @@ import {
 	ButtonGroup,
 } from "@mui/material";
 import { useRouter } from "next/router";
+import {AuthenticationService} from "../service/authentication_service";
 
 export default function SimpleHeader() {
 	const router = useRouter();
 	const isHomePage = router.pathname === "/";
+	const isChat = router.pathname === "/chat";
 
 	const handleClickLogo = (e) => {
 		e.preventDefault();
 		router.push("/");
 	};
+
+	const logout = () => {
+		AuthenticationService.logoutUser();
+		router.push("/")
+	}
 
 	return (
 		<AppBar position="static" sx={{ height: "fit-content" }}>
@@ -76,6 +83,24 @@ export default function SimpleHeader() {
 							</Link>
 						</div>
 					)}
+					{isChat && (
+						<div>
+								<Button onClick={logout}
+									color="secondary"
+									sx={{
+										background: "white",
+										border: "2px solid",
+										width: "100px",
+										marginLeft: "10px",
+										borderRadius: "20px",
+									}}
+								>
+									Log Out
+								</Button>
+						</div>
+					)
+
+					}
 				</Toolbar>
 			</Container>
 		</AppBar>

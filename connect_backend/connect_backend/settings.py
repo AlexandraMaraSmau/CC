@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'django_prometheus',
     'backend'
 ]
@@ -49,6 +50,9 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django_prometheus.middleware.PrometheusAfterMiddleware',
 ]
 
@@ -90,6 +94,14 @@ DATABASES = {
         },
     }
 }
+
+CORS_ALLOWED_ORIGINS = [
+    "http://react-service:3000"
+]
+
+CORS_ALLOW_ALL_HEADERS = True
+
+CORS_ALLOW_METHODS = ('DELETE', 'GET', 'POST', 'PUT')
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
