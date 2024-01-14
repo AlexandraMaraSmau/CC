@@ -38,7 +38,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: adminer
+  name: adminer-service
   labels:
     app: adminer
 spec:

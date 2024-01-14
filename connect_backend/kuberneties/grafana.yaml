@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: prometheus
-          image: prom/prometheus
+          image: grafana/grafana:latest
           ports:
             - containerPort: 9090
 ---
