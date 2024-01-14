@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import {
 	Box,
 	Button,
@@ -10,18 +10,28 @@ import {
 	ListItem,
 	ListItemButton,
 	ListItemIcon,
-	ListItemText,
+	ListItemText
 } from "@mui/material";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import { useRouter } from "next/router";
+import {UserService} from "../../service/user_service";
+import {AuthenticationService} from "../../service/authentication_service";
+import {ConversationService} from "../../service/conversation_service";
+import {MessageService} from "../../service/message_service";
 
 export default function Chat() {
 	const router = useRouter();
 
-	const [currentConversation, setCurrentConversation] = useState(null);
+	const [conversations, setConversations] = useState([]);
+	const [userConversations, setUserConversations] = useState([]);
+	const [messagesBack, setMessagesBack] = useState([]);
+	const [messagesConversation, setMessagesConversation] = useState([]);
+
+	const [currentConversation, setCurrentConversation] = useState("");
 	const [messages, setMessages] = useState([]);
 	const [newMessage, setNewMessage] = useState("");
-	const currentUserId = 1;
+	const [user, setuser] = useState([]);
+	const currentUserId = AuthenticationService.getUserID();
 
 	const users = [
 		{ id: 1, name: "ana123" },
@@ -36,14 +46,28 @@ export default function Chat() {
 
 	const handleConversationClick = (conv) => {
 		setCurrentConversation(conv);
-		const chatMessages = [
-			{
-				id: 1,
-				text: "Hello!",
-				sender: conv.id === "group" ? "group" : conv.id,
-			},
-			{ id: 2, text: "Hi there!", sender: 1 },
-		];
+		console.log(conv)
+		const currentMessages = [];
+		for (const msg of messagesBack) {
+			const ConversationID = msg.fields.ConversationID;
+
+			if (conv.pk == ConversationID) {
+				currentMessages.push(msg)
+			}
+		}
+
+		const chatMessages = [];
+		const otherUserID = conv.fields.ConversationUser.pk
+		for (let i = 0; i < currentMessages.length; i++) {
+
+			const chatMsg = {
+				id: i,
+				text: currentMessages[i].fields.Content,
+				sender: (i % 2 == 0)? currentUserId : otherUserID
+			}
+			chatMessages.push(chatMsg)
+		}
+
 		setMessages(chatMessages);
 	};
 
@@ -59,6 +83,49 @@ export default function Chat() {
 		setMessages([...messages, newMessageObj]);
 		setNewMessage("");
 	};
+
+	useEffect(() => {
+		try {
+			async function getConversations() {
+				const response = await ConversationService.getAllConversations();
+				setConversations(response);
+				const filter = [];
+
+				for (const conversation of conversations) {
+					const Users = conversation.fields.Users;
+					if (Users.find(i => (i == currentUserId))) {
+						filter.push(conversation);
+						for (const i of Users) {
+							if (i != currentUserId) {
+								const tempUser = await UserService.getUserById(i);
+								conversation.fields["ConversationUser"] = tempUser;
+
+							}
+						}
+					}
+				}
+				setUserConversations(filter);
+			}
+			getConversations();
+		} catch (e) {
+			console.log(e);
+		}
+
+	}, []);
+
+	useEffect(() => {
+		try {
+			async function getMessages() {
+				const response = await MessageService.getAllMessages();
+				setMessagesBack(response);
+
+			}
+			getMessages();
+		} catch (e) {
+			console.log(e);
+		}
+
+	}, []);
 
 	return (
 		<Container disableGutters maxWidth={false}>
@@ -81,6 +148,7 @@ export default function Chat() {
 					elevation={3}
 				>
 					<div style={{ flex: "1" }}>
+
 						<div
 							style={{
 								height: "100%",
@@ -98,11 +166,11 @@ export default function Chat() {
 								<strong>Chats</strong>
 							</Typography>
 							<List style={{}}>
-								{users.map((chat) => (
+								{userConversations.map((conversation) => (
 									<ListItem disablePadding>
 										<ListItemButton
-											key={chat.id}
-											onClick={() => handleConversationClick(chat)}
+											key={conversation.pk}
+											onClick={() => handleConversationClick(conversation)}
 											style={{
 												border: "1px solid #ccc",
 												padding: "10px 30px 10px 30px",
@@ -111,7 +179,7 @@ export default function Chat() {
 											<ListItemIcon>
 												<PersonOutlineIcon />
 											</ListItemIcon>
-											<ListItemText primary={chat.name} />
+											<ListItemText primary={conversation.fields.ConversationUser[0].fields.Username} />
 										</ListItemButton>
 									</ListItem>
 								))}
@@ -136,7 +204,7 @@ export default function Chat() {
 										padding: "10px 30px 10px 30px",
 									}}
 								>
-									{currentConversation.name}
+									{currentConversation.fields.ConversationUser[0].fields.Username}
 								</Typography>
 
 								<div
@@ -159,13 +227,13 @@ export default function Chat() {
 												paddingLeft: "10px",
 												paddingRight: "10px",
 												alignItems:
-													message.sender === 1 ? "flex-end" : "flex-start",
+													message.sender === currentUserId ? "flex-end" : "flex-start",
 											}}
 										>
 											<div style={{ textAlign: "center", marginBottom: "5px" }}>
 												{message.sender === currentUserId
 													? "You"
-													: currentConversation.name}
+													: currentConversation.fields.ConversationUser[0].fields.Username}
 											</div>
 											<Paper
 												elevation={3}

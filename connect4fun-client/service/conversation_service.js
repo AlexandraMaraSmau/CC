@@ -4,7 +4,6 @@ const addConversation = async (conversation) => {
     try {
         const options = {
             method: "POST",
-            mode: 'no-cors',
             headers: {
                 "Content-Type": "application/json",
             },
@@ -28,7 +27,6 @@ const updateConversation = async (conversation) => {
     try {
         const options = {
             method: "PUT",
-            mode: 'no-cors',
             headers: {
                 "Content-Type": "application/json",
             },
@@ -52,7 +50,6 @@ const deleteConversation = async (id) => {
     try {
         const options = {
             method: "DELETE",
-            mode: 'no-cors',
             headers: {
                 "Content-Type": "application/json",
             },
@@ -74,7 +71,6 @@ const getConversationById = async (id) => {
 
         const options = {
             method: "GET",
-            mode: 'no-cors',
             headers: {
                 "Content-Type": "application/json",
             },
@@ -95,7 +91,6 @@ const getAllConversations = async () => {
 
         const options = {
             method: "GET",
-            mode: "no-cors",
             headers: {
                 "Content-Type": "application/json",
             },

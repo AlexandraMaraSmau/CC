@@ -4,7 +4,6 @@ const addActivity = async (activity) => {
     try {
         const options = {
             method: "POST",
-            mode: 'no-cors',
             headers: {
                 "Content-Type": "application/json",
             },
@@ -30,7 +29,6 @@ const updateActivity = async (activity) => {
     try {
         const options = {
             method: "PUT",
-            mode: 'no-cors',
             headers: {
                 "Content-Type": "application/json",
             },
@@ -56,7 +54,6 @@ const deleteActivity = async (id) => {
     try {
         const options = {
             method: "DELETE",
-            mode: 'no-cors',
             headers: {
                 "Content-Type": "application/json",
             },
@@ -78,7 +75,6 @@ const getActivityById = async (id) => {
 
         const options = {
             method: "GET",
-            mode: 'no-cors',
             headers: {
                 "Content-Type": "application/json",
             },
@@ -99,7 +95,6 @@ const getAllActivities = async () => {
 
         const options = {
             method: "GET",
-            mode: "no-cors",
             headers: {
                 "Content-Type": "application/json",
             },

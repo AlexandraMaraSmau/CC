@@ -4,7 +4,6 @@ const addMessage = async (message) => {
     try {
         const options = {
             method: "POST",
-            mode: 'no-cors',
             headers: {
                 "Content-Type": "application/json",
             },
@@ -30,7 +29,6 @@ const updateMessage = async (message) => {
     try {
         const options = {
             method: "PUT",
-            mode: 'no-cors',
             headers: {
                 "Content-Type": "application/json",
             },
@@ -56,7 +54,6 @@ const deleteMessage = async (id) => {
     try {
         const options = {
             method: "DELETE",
-            mode: 'no-cors',
             headers: {
                 "Content-Type": "application/json",
             },
@@ -78,7 +75,6 @@ const getMessageById = async (id) => {
 
         const options = {
             method: "GET",
-            mode: 'no-cors',
             headers: {
                 "Content-Type": "application/json",
             },
@@ -99,7 +95,6 @@ const getAllMessages = async () => {
 
         const options = {
             method: "GET",
-            mode: "no-cors",
             headers: {
                 "Content-Type": "application/json",
             },
